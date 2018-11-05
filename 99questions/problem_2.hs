@@ -16,7 +16,8 @@ myButLast'' x = head(tail(reverse x))
 -- 4
 myButLast''' [] = error "No such element"
 myButLast''' [_] = error "No such element"
-myButLast''' x = head(reverse(init x))
+-- myButLast''' x = head(reverse(init x))
+myButLast''' x= head $ reverse $ init x
 
 -- 5
 {-myButLast'''' [a] -> a-}
@@ -38,7 +39,7 @@ lastbut1safe :: Foldable f => f a -> Maybe a
 lastbut1safe = fst . foldl (\(a,b) x -> (b, Just x)) (Nothing, Nothing)
 
 -- 9 !
-myButLast'''''' [] = error "Empty lsit"
+myButLast'''''' [] = error "Empty list"
 myButLast'''''' [x] = error "Too few elements"
 myButLast'''''' (x:xs) = 
                   if length xs == 1 then x
