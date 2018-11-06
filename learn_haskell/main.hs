@@ -177,8 +177,10 @@ replicate' n x
 
 take' ::(Ord i, Num i) => i -> [a] -> [a]
 take' n _
-      | n <= 0 = [] -- take -1 [1,2,3] why does not work?
-take' _ []  = [] -- take 10 []
+      | n <= 0 = [] 
+-- take -1 [1,2,3] why does not work?
+take' _ []  = [] 
+-- take 10 []
 take' n (x:xs) = x : take' (n - 1) xs
 
 reverse' :: [a] -> [a]
@@ -344,7 +346,7 @@ filter'' p = foldr (\x acc -> if p x then x : acc else acc) []
 
 -- $
 -- sum $ map sqrt [1..131]
--- f (g (z x)) <--> f $ g $ z x
+-- f (g (z x)) <> f $ g $ z x
 -- map ($ 3) [(4+),(10*),(^2),sqrt] 
 
 
