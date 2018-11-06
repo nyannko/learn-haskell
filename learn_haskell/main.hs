@@ -205,3 +205,170 @@ quicksort (x:xs) =
     let small = quicksort [a | a <- xs, a <= x]
         big = quicksort [a | a <- xs, a > x]
     in small ++ [x] ++ big
+
+-- higher order function
+-- x is applied to multiThree, that creates a function that takes one param and 
+-- returns a function.
+-- putting a space between two things is function application
+-- multiThree :: (Num a) => a -> (a -> (a -> a))
+multiThree :: (Num a) => a -> a -> a -> a 
+multiThree x y z = x * y * z
+
+compareWithHundread :: (Num a, Ord a) => a -> Ordering 
+-- compareWithHundread x = compare 100 x
+compareWithHundread = compare 100
+
+-- infix function
+divideByTen :: (Floating a) => a -> a 
+divideByTen = (/10)
+
+isUpperAlpha :: Char -> Bool 
+isUpperAlpha  = (`elem` ['A'..'Z'])
+
+applyTwice :: (a -> a) -> a -> a
+applyTwice f x = f (f x)
+-- applyTwice (min 10) 9
+-- applyTwice (3:) [1]
+
+zipwith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipwith' _ [] _ = []
+zipwith' _ _ [] = []
+zipwith' f (x:xs) (y:ys) = f x y : zipwith' f xs ys 
+-- zipwith' (+) [1,2,3] [4,5,6]
+
+-- evaluates the function flipping the order of arguments
+filp' :: (a -> b -> c) -> (b -> a -> c)
+filp' f x y = f y x
+-- flip' compare 1 2
+-- flip' (+) 3 10
+-- flip' zip [1,2,3,4,5] "hello"  
+
+map' :: (a -> b) -> [a] -> [b]
+map' _ [] = []
+map' f (x:xs) = f x : map' f xs
+-- map' fst [(1,2), (3,4)]
+-- map' (+3) [1,2,3]
+
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' _ [] = []
+filter' p (x:xs)
+        | p x = x : filter' p xs
+        | otherwise = filter' p xs
+-- filter' (<2) [1,2,3]
+-- filter' even [1,2,3]
+
+quicksort' :: (Ord a) => [a] -> [a]
+quicksort' [] = []
+quicksort' (x:xs) = 
+        let small = quicksort' (filter (<=x) xs)
+            big = quicksort' (filter (>x) xs)
+        in small ++ [x] ++ big
+
+largestDivisible :: (Integral a) => a 
+largestDivisible = head $ filter p [10000, 9999..]
+        where p x = x `mod` 233 == 0
+
+-- sum (takeWhile (<10000) (filter odd (map (^2) [1..])))  
+-- sum (takeWhile (<10000) [m | m <- [n^2 | n <- [1..]], odd m])  
+
+chain :: (Integral a) => a -> [a]
+chain 1 = [1]
+chain n 
+        | even n = n:chain(n `div` 2)
+        | odd n = n:chain(n * 3 + 1)
+
+numLongChains :: Int
+numLongChains = length (filter isLong(map chain [1..100]))
+        where isLong xs = length xs > 15
+
+-- let listOfFuns = map (*) [0..]
+-- (listOfFuns !! 4) 5
+
+numLongChains' :: Int  
+numLongChains' = length (filter (\xs -> length xs > 15) (map chain [1..100]))
+
+-- lambda \x
+-- map (+3) [1,2,3]
+-- map (\x -> x + 3) [1,2,3]
+-- map (\(a, b) -> a + b) [(1,2),(3,5),(6,3),(2,6),(2,5)]
+-- zipWith (\a b -> (a * 30 + 3) / b) [5,4,3,2,1] [1,2,3,4,5]   
+
+addThree' :: (Num a) => a -> a -> a -> a 
+addThree' = \x -> \y -> \z -> x + y + z
+
+flip'' :: (a -> b -> c) -> (b -> a -> c)
+flip'' f = \x y -> f y x
+
+-- foldl (+) 0 [1..10]
+sum'' :: (Num a) => [a] -> a 
+sum'' xs = foldl (\acc x -> acc + x) 0 xs
+
+sum''' :: (Num a) => [a] -> a
+sum''' xs = foldl (+) 0 xs
+
+-- foldl --> elem
+elem'' :: (Eq a) => a -> [a] -> Bool
+elem'' y ys = foldl (\acc x -> if x == y then True else acc)  False ys
+
+map'' :: (a -> b) -> [a] -> [b]
+map'' f xs = foldr (\x acc -> f x : acc) [] xs
+
+-- foldl1 foldr1, no explicit starting value 
+sum'''' :: (Num a) => [a] -> a
+sum'''' = foldl1 (+) 
+
+product' :: (Num a) => [a] -> a
+product' = foldl1 (*)
+
+maximum''' :: (Ord a) => [a] -> a 
+maximum''' = foldr1 (\x acc -> if x > acc then x else acc)
+
+head''' :: [a] -> a
+head''' = foldr1 (\x _ -> x)
+
+last' :: [a] -> a
+last' = foldr1 (\_ x -> x)
+
+reverse'' :: [a] -> [a]
+reverse'' = foldl (\acc x -> x : acc) []
+
+filter'' :: (a -> Bool) -> [a] -> [a]
+filter'' p = foldr (\x acc -> if p x then x : acc else acc) []
+
+-- *Main> scanl (+) 0 [1,2,3]
+-- [0,1,3,6]
+-- *Main> scanl1 (+) [1,2,3]
+-- [1,3,6]
+-- scanl (flip (:)) [] [3,2,1]  
+-- [[],[3],[2,3],[1,2,3]]
+
+-- $
+-- sum $ map sqrt [1..131]
+-- f (g (z x)) <--> f $ g $ z x
+-- map ($ 3) [(4+),(10*),(^2),sqrt] 
+
+
+-- function composition
+
+-- example 1
+-- map (\x -> negate (abs(x))) [1,2,3]
+-- map (\x -> negate $ abs(x)) [1,2,3]
+-- map (negate . abs) [1,2,3]
+
+-- map (\xs -> negate (sum (tail xs))) [[1,2,3], [4,5,6]]
+-- map (\xs -> negate $ sum $ tail xs) [[1,2,3], [4,5,6]]
+-- map (\x -> negate.sum.tail) [[1,2,3], [4,5,6]]
+
+-- point free style
+-- fn x = ceiling (negate (tan (cos (max 50 x))))
+-- fn = ceiling . negate . tan . cos . max 50
+
+oddSquareSum :: Integer
+oddSquareSum = sum . takeWhile (<10000) . filter odd . map (^2) $ [1..]
+-- oddSquareSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+
+oddSquareSum' :: Integer
+oddSquareSum' = 
+    let oddSquares = filter odd (map (^2) [1..])
+        belowList = takeWhile (<10000) oddSquares
+    in sum belowList

@@ -36,6 +36,6 @@ elementAt''''' xs n
         -- | otherwise = head . reverse $ take n xs
         -- | otherwise = head $ drop (n - 1) xs
 
--- point-free style ?????
+-- point-free style, function composition 
 elementAt_w'pf = (last .) . take . (+ 1)
 elementAt_w'pf' = flip $ (last .) . take . (+1)
