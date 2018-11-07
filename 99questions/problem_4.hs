@@ -1,5 +1,8 @@
 -- find the number of elements in the list
--- myLength
+-- Prelude> myLength [123, 456, 789]
+-- 3
+-- Prelude> myLength "Hello, world!"
+-- 13
 
 -- 1. simple recursion
 -- be careful with signature

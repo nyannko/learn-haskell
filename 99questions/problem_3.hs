@@ -1,5 +1,8 @@
 -- find the K'th element of a list
--- elementAt
+-- Prelude> elementAt [1,2,3] 2
+-- 2
+-- Prelude> elementAt "haskell" 5
+-- 'e'
 
 -- 1 the definition of !! (zero-indexed)
 elementAt :: [a] -> Int -> a 

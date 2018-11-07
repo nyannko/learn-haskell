@@ -1,5 +1,8 @@
 -- find the last element of a list
--- myLast
+-- Prelude> myLast [1,2,3,4]
+-- 4
+-- Prelude> myLast ['x','y','z']
+-- 'z'
 
 -- 1
 myLast :: [a] -> a
