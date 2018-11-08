@@ -5,6 +5,7 @@ import Data.List hiding (nub)
 import qualified Data.Map
 -- (M.filter)
 import qualified Data.Map as M 
+import Data.Char
 
 -- unload the list
 -- :m -Data.List
@@ -128,3 +129,25 @@ search needle haystack =
 -- groupBy (\x y -> (x > 0) == (y > 0)) values
 -- :m + Data.Function
 -- groupBy ((==) `on` (> 0)) values
+
+-- Data.Char
+-- groupBy ((==) `on` isSpace) "hey im mei"
+-- ["hey"," ","im"," ","mei"]
+-- filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey im mei"
+-- ["hey","im","mei"]
+-- generalCategory 'A'
+-- map digitToInt "3456FF"
+-- [3,4,5,6,15,15]
+-- ord 'a' chr 97
+
+-- encode 3 "hihihihi" --> "klklklkl"
+-- Caesar cipher
+encode :: Int -> String -> String 
+encode shift msg = 
+    let ords = map ord msg
+        shifted = map (+ shift) ords
+    in map chr shifted
+
+decode :: Int -> String -> String
+decode shift msg = encode (negate shift) msg
+
