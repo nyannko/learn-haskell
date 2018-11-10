@@ -14,7 +14,7 @@ import Control.Monad
 import Control.Applicative
 import Control.Arrow
 
--- 1. recursion for removing head and tail
+-- 1. recursion for removing head and tail, mine solution
 isPalindrome :: (Eq a) => [a] -> Bool
 isPalindrome [] = True
 isPalindrome [_] = True

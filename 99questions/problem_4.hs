@@ -4,7 +4,7 @@
 -- Prelude> myLength "Hello, world!"
 -- 13
 
--- 1. simple recursion
+-- 1. simple recursion, mine solution
 -- be careful with signature
 myLength' :: (Num b) => [a] -> b
 myLength' [] = 0
@@ -17,7 +17,7 @@ myLength' (x:xs) = 1 + myLength' xs
 -- ...     else:
 -- ...         return 1 + length(l[1:])
 
--- 2. mapping to one
+-- 2. mapping to one, mine
 myLength xs = sum [1 | _ <- xs]
 
 -- $

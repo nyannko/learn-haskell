@@ -6,7 +6,7 @@
 -- built-in: reverse
 
 
--- 1. recursion
+-- 1. recursion, mine sulution
 myReverse :: [a] -> [a]
 myReverse [] = []
 myReverse (x:xs) = myReverse xs ++ [x]
