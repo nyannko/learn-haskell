@@ -12,6 +12,11 @@
 -- ["aaaa","b","cc","aa","d","eeee"]
 
 -- 1. use built-in function Data.List groupBy
+module Problem_9    
+(
+    pack 
+) where
+
 import Data.List 
 pack xs = groupBy (==) xs
 
