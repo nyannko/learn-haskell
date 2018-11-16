@@ -8,7 +8,10 @@
 
 -- encode "aaaabccaadeeee"
 -- [(4,'a'),(1,'b'),(2,'c'),(2,'a'),(1,'d'),(4,'e')]
-
+module Problem_10
+(
+    encode 
+) where
 import Data.List
 import Problem_9
 import Control.Arrow

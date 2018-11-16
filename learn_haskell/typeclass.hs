@@ -218,6 +218,36 @@ treeElem x (Node a left right)
 
 -- Typeclass typeclasses are like interfaces. A typeclass defines some behavior 
 -- (like comparing for equality, comparing for ordering, enumeration) and then types that can behave in that way are made instances of that typeclass.
+data TrafficLight = Red | Yellow | Green
+
+instance Eq TrafficLight where
+    Red == Red = True
+    Green == Green = True
+    Yellow == Yellow = True
+    _ == _ = False
+
+-- class Eq a where
+--     (==) :: a -> a -> Bool 
+--     (/=) :: a -> a -> Bool 
+--     x == y == not (x /= y)
+--     x /= y == not (x == y)
 
 
+-- class Eq a where 
+--     (==) :: a -> a -> Bool
+--     (/=) :: a -> a -> Bool 
+-- minimal complete definition
 
+instance Show TrafficLight where
+    show Red = "Red light"
+    show Green = "Green light"
+    show Yellow = "Yello light"
+
+-- Defined in ‘GHC.Base’
+-- instance (Eq m) => Eq (Maybe m) where
+--     Just x == Just y = x == y
+--     Nothing == Nothing = True
+--     _ == _ = False
+
+-- :info Num
+-- : info Maybe
