@@ -288,3 +288,44 @@ yesnoIf :: (YesNo y) => y -> a -> a -> a
 yesnoIf yesnoVal yesResult noResult = 
     if yesno yesnoVal then yesResult else noResult
 -- yesnoIf [] "YEAH!" "NO!"
+
+-- functor typeclass
+-- class Functor f where 
+--     fmap :: (a -> b) -> f a -> f b 
+-- the f is not a concrete type (a type that a value can hold, like Int, Bool or Maybe String), 
+-- but a type constructor that takes one type parameter. 
+-- Maybe Int is a concrete type
+-- Maybe is a type constructor that takes one type as the parameter
+-- fmap takes a function from one type to another and a functor applied with one type 
+-- and returns a functor applied with another type.
+
+-- instance Functor [] where 
+--     fmap = map 
+-- [] is a type constructor that takes one type and can produce types 
+-- such as [Int], [String] or even [[String]].
+
+-- instance Functor Maybe where 
+--     fmap f (Just x) = Just (f x)
+--     fmap f Nothing = Nothing
+-- we cannot use Maybe a since if we mentally replace the f with Maybe m, then it would seem to act as
+-- (a -> b) -> Maybe m a -> Maybe m b which does not make any sense since Maybe just take one type parameter.
+
+-- ghci> fmap (++ " HEY GUYS IM INSIDE THE JUST") (Just "Something serious.")  
+-- Just "Something serious. HEY GUYS IM INSIDE THE JUST"  
+-- ghci> fmap (++ " HEY GUYS IM INSIDE THE JUST") Nothing  
+-- Nothing  
+-- ghci> fmap (*2) (Just 200)  
+-- Just 400  
+-- ghci> fmap (*2) Nothing  
+-- Nothing  
+
+instance Functor Tree where 
+    fmap f EmptyTree = EmptyTree 
+    fmap f (Node x leftsub rightsub) = Node (f x) (fmap f leftsub) (fmap f rightsub)
+-- fmap (*4) EmptyTree
+-- fmap (*4) (foldr treeInsert EmptyTree [5,7,3,2,1,7]) 
+
+-- instance Functor (Either a) where 
+--     fmap f (Right x) = Right (f x) 
+--     fmap f (Left x) = Left x
+
