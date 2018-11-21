@@ -329,3 +329,49 @@ instance Functor Tree where
 --     fmap f (Right x) = Right (f x) 
 --     fmap f (Left x) = Left x
 
+-- kind: A kind is more or less the type of a type.
+-- Prelude> :k Int
+-- Int :: *
+-- A * means that the type is a concrete type. A concrete type is a type that doesn't take any
+-- type parameters and values can only have types that are concrete types.
+-- Prelude> :k Maybe
+-- Maybe :: * -> *
+-- value --> type(:t) --> kind(:k)
+
+-- Prelude> :k Either
+-- Either :: * -> * -> *
+-- Either takes two concrete types as paramters and produce a concrete type.
+
+class Tofu t where
+    tofu :: j a -> t a j
+-- a: *
+-- j: * -> *
+-- t: * -> (* -> *) -> *
+
+-- we define a * -> (* -> *) -< * kind
+data Frank a b = Frank {frankField :: b a} deriving (Show)
+
+-- a: *
+-- b: (* -> *)
+-- ghci> :t Frank {frankField = Just "HAHA"}
+-- Frank {frankField = Just "HAHA"} :: Frank [Char] Maybe
+-- ghci> :t Frank {frankField = Node 'a' EmptyTree EmptyTree}
+-- Frank {frankField = Node 'a' EmptyTree EmptyTree} :: Frank Char Tree
+-- ghci> :t Frank {frankField = "YES"}
+-- Frank {frankField = "YES"} :: Frank Char []
+
+instance Tofu Frank where 
+    tofu x = Frank x
+-- ghci> tofu (Just 'a') :: Frank Char Maybe
+-- Frank {frankField = Just 'a'}
+-- ghci> tofu ["HELLO"] :: Frank [Char] []
+-- Frank {frankField = ["HELLO"]}
+
+data Barry t k p = Barry { yabba :: p, dabba :: t k }
+-- *Main> :t Barry
+-- Barry :: p -> t k -> Barry t k p
+-- *Main> :k Barry
+-- Barry :: (* -> *) -> * -> * -> *
+
+instance Functor (Barry a b) where
+    fmap f (Barry {yabba = x, dabba = y}) = Barry {yabba = f x, dabba = y}
