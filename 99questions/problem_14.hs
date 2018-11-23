@@ -29,5 +29,3 @@ dup4 = foldr (\ x xs -> x : x : xs) []
 
 -- 6. list monad
 dup5 xs = xs >>= (\x -> [x,x])
-
-
