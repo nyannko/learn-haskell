@@ -187,3 +187,11 @@ main13 = do
     putStrLn "The colors that you associate with 1,2,3 and 4 are: " 
     mapM putStrLn colors 
 
+-- getContents
+-- Lazy I/O
+main14 = forever $ do 
+    putStr "Give me some input: "
+    l <- getLine 
+    putStrLn $ map toUpper l 
+
+
